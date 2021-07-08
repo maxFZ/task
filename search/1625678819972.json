@@ -1,0 +1,17 @@
+{
+    "files": [
+        "auth.controller.spec.ts",
+        "auth.controller.ts",
+        "auth.module.ts",
+        "auth.service.ts",
+        "user.entity.ts",
+        "user.service.spec.ts",
+        "types\\user.type.ts",
+        "types\\userResponse.interface.ts",
+        "middlewares\\auth.middleware.ts",
+        "guards\\auth.guards.ts",
+        "dto\\createUser.dto.ts",
+        "dto\\loginUser.dto.ts",
+        "decorators\\user.decorator.ts"
+    ]
+}
