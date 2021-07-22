@@ -1,5 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { AppClusterService } from './app-cluster.service';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -10,4 +11,7 @@ async function bootstrap() {
   await app.listen(port);
   logger.log(`Application is running on port ${port}`)
 }
-bootstrap();
+// bootstrap();
+
+AppClusterService.clusterize(bootstrap);
+
