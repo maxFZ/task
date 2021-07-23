@@ -1,8 +1,8 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppClusterService } from './app-cluster.service';
+import { AppClusterService } from './app_cluster.service';
 import { AppModule } from './app.module';
-import MyLogger from './finder/logger';
+import MyLogger from './logger';
 
 
 async function bootstrap() {
