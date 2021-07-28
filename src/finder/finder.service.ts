@@ -1,15 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import readdirp from 'readdirp';
-import * as fs from 'fs'
+// import * as fs from 'fs'
 import { FilterDto } from './dto/filter.dto';
+const fs = require('fs');
+
+const path = require('path');
 
 @Injectable()
 export class FinderService {
 
-	async findFiles(filterDto: FilterDto) {
-		let { path, filename, extension } = filterDto
 
+	async getFiles(dir, files_) {
+		files_ = files_ || [];
+		let files = fs.readdirSync(dir);
 
+		for (let i in files) {
+			let newName = dir + '/' + files[i];
+			if (fs.statSync(newName).isDirectory()) {
+				this.getFiles(newName, files_);
+			} else {
+				files_.push(newName);
+			}
+		}
+		return files_;
+	}
+
+	async filteredFiles(files: any, filterDto: FilterDto) {
+		const logname = new Date().getTime();
+		let { filename, extension } = filterDto
 
 		if (filename === undefined) {
 			filename = ''
@@ -19,18 +37,7 @@ export class FinderService {
 			extension = ''
 		}
 
-
-
-
-		const logname = new Date().getTime();
-		console.log(filterDto.path)
-		let filesFromDirectory = []
-		const files = await readdirp.promise(path);
-		filesFromDirectory = (files.map(file => file.path));
-		console.log(filesFromDirectory)
-
-
-		let searchResult = filesFromDirectory.filter(file => file.match(new RegExp(`(${filename}).*\.(${extension})`, 'ig')));
+		let searchResult = files.filter(file => file.match(new RegExp(`(${filename}).*\.(${extension})`, 'ig')));
 		let result = { files: searchResult }
 		fs.writeFile(`search/${logname}.json`, JSON.stringify(result, null, 4), (err) => {
 			if (err) { console.error(err); return; };
@@ -38,5 +45,8 @@ export class FinderService {
 		});
 		return result;
 	}
+	// return searchResult;
+
+}
 
 }

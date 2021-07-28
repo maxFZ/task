@@ -18,6 +18,8 @@ export class FinderController {
 		@Query() filterDto: FilterDto
 	) {
 		this.logger.verbose(`User ${user.username} is searching: file: ${filterDto.filename}, path: ${filterDto.path}, extension: ${filterDto.extension}`)
-		return await this.finderService.findFiles(filterDto);
+		const files = await this.finderService.getFiles(filterDto.path, null);
+		return await this.finderService.filteredFiles(files, filterDto);
+
 	}
 }
