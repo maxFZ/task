@@ -7,6 +7,7 @@ import ormconfig from './orm.config';
 import { AuthMiddleware } from './auth/middlewares/auth.middleware';
 import { FinderModule } from './finder/finder.module';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 
 
 @Module({
@@ -17,7 +18,7 @@ import { ConfigModule } from '@nestjs/config';
     TypeOrmModule.forRoot(ormconfig),
     AuthModule,
     FinderModule,
-
+    ScheduleModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],

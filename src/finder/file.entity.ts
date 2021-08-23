@@ -18,7 +18,7 @@ export class FileEntity {
 	@Column()
 	path: string
 
-	// @Index({ fulltext: true })
+	@Index({ fulltext: true })
 	@Column({ type: "text" })
 	data: string
 
@@ -31,11 +31,6 @@ export class FileEntity {
 
 	@UpdateDateColumn()
 	updatedAt: Date;
-
-	// @BeforeInsert()
-	// async hashPassword() {
-	// 	this.hash = await hash(this.data, 10)
-	// }
 }
 
 

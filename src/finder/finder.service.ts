@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Next } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'bcrypt';
 import { getRepository, Repository, SimpleConsoleLogger } from 'typeorm';
@@ -49,7 +49,12 @@ export class FinderService {
 				const { data, generatedmd5 } = await this.getDataFromFile(files[i]);
 				file.data = data;
 				file.hash = generatedmd5;
-				this.fileRepository.save(file);
+				try {
+					await this.fileRepository.save(file);
+				}
+				catch (e) {
+					console.log('not text format')
+				}
 			} else {
 				const { data, generatedmd5 } = await this.getDataFromFile(files[i])
 				if (generatedmd5 === file.hash) {
@@ -65,9 +70,14 @@ export class FinderService {
 	}
 
 	async getDataFromFile(elem: string): Promise<{ data: string, generatedmd5: string }> {
-		const data = await fs.readFileSync(elem, 'utf8');
-		const generatedmd5 = crypto.createHash('md5').update(data).digest('hex');
-		return { data, generatedmd5 }
+
+		try {
+			const data = await fs.readFileSync(elem);
+			const generatedmd5 = crypto.createHash('md5').update(data).digest('hex');
+			return { data, generatedmd5 }
+		} catch (e) {
+			console.log(e)
+		}
 	}
 
 	getParentDir(elem: string): string {
