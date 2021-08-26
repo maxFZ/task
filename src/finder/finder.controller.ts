@@ -17,7 +17,7 @@ export class FinderController {
 	@Cron('0 10 * * * *	')
 	async loadFiles(
 	) {
-		const files = await this.finderService.getFiles('C:/projects/backend-test', null);
+		const files = await this.finderService.getFiles('.', null);
 		return await this.finderService.filteredFiles(files);
 	}
 
